@@ -12,19 +12,21 @@
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                    },
                     colors: {
                         tag: {
-                            insane: '#fbcfe8', // pink-200
-                            insaneTxt: '#9d174d', // pink-900
-                            dx3: '#e5e7eb', // gray-200
-                            dx3Txt: '#374151', // gray-700
-                            pl: '#fed7aa', // orange-200
-                            plTxt: '#c2410c', // orange-700
-                            gm: '#e2e8f0', // slate-200
-                            gmTxt: '#475569', // slate-700
-                            time: '#bfdbfe', // blue-200
-                            timeTxt: '#1e3a8a', // blue-900
+                            insane: '#fbcfe8', insaneTxt: '#9d174d',
+                            dx3: '#e2e8f0', dx3Txt: '#334155',
+                            coc: '#dcfce7', cocTxt: '#166534',
+                            pl: '#ffedd5', plTxt: '#c2410c',
+                            gm: '#f1f5f9', gmTxt: '#475569',
+                            time: '#e0e7ff', timeTxt: '#3730a3',
                         }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
                     }
                 }
             }
@@ -33,241 +35,239 @@
     
     <!-- FullCalendar -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    
+    <!-- 구글 캘린더 연동 플러그인 -->
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js"></script>
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 웹 폰트 (Pretendard) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; }
+        body { background-color: #f8fafc; }
+        .dark body { background-color: #0f172a; }
         
         /* 커스텀 스크롤바 */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-color: transparent; }
         
-        /* FullCalendar 노션/개인홈 감성 커스텀 */
-        .fc { font-family: 'Noto Sans KR', sans-serif; }
+        /* FullCalendar 프리미엄 커스텀 */
+        .fc { font-family: 'Pretendard', sans-serif; }
         .fc-theme-standard td, .fc-theme-standard th, .fc-theme-standard .fc-scrollgrid { border-color: #f1f5f9; }
-        .dark .fc-theme-standard td, .dark .fc-theme-standard th, .dark .fc-theme-standard .fc-scrollgrid { border-color: #334155; }
-        .fc-col-header-cell { padding: 8px 0; background-color: transparent !important; font-weight: 500; color: #64748b; }
+        .dark .fc-theme-standard td, .dark .fc-theme-standard th, .dark .fc-theme-standard .fc-scrollgrid { border-color: #1e293b; }
+        .fc-col-header-cell { padding: 12px 0; background-color: transparent !important; font-weight: 600; color: #64748b; font-size: 0.875rem; border-bottom: 1px solid #e2e8f0 !important; }
+        .dark .fc-col-header-cell { border-bottom-color: #334155 !important; color: #94a3b8; }
+        .fc-daygrid-day-number { padding: 8px !important; font-weight: 500; color: #334155; }
         .dark .fc .fc-daygrid-day-number { color: #cbd5e1; }
         
-        .fc .fc-button-primary { background-color: transparent; border: 1px solid #e2e8f0; color: #475569; box-shadow: none !important; border-radius: 8px; text-transform: capitalize; font-weight: 500;}
-        .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active { background-color: #f1f5f9; color: #0f172a; border-color: #cbd5e1; }
-        .fc .fc-button-primary:hover { background-color: #f8fafc; color: #0f172a; }
+        .fc .fc-button-primary { background-color: white; border: 1px solid #e2e8f0; color: #475569; box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important; border-radius: 8px; font-weight: 500; transition: all 0.2s; }
+        .fc .fc-button-primary:hover { background-color: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+        .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active { background-color: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
         
-        .dark .fc .fc-button-primary { border-color: #475569; color: #e2e8f0; }
-        .dark .fc .fc-button-primary:not(:disabled):active, .dark .fc .fc-button-primary:not(:disabled).fc-button-active { background-color: #334155; color: #f8fafc; border-color: #64748b; }
+        .dark .fc .fc-button-primary { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
+        .dark .fc .fc-button-primary:hover { background-color: #334155; }
+        .dark .fc .fc-button-primary:not(:disabled):active, .dark .fc .fc-button-primary:not(:disabled).fc-button-active { background-color: #1e3a8a; color: #bfdbfe; border-color: #1e40af; }
         
-        .fc-day-sat .fc-daygrid-day-number { color: #60a5fa !important; }
-        .fc-day-sun .fc-daygrid-day-number { color: #f87171 !important; }
+        .fc-day-sat .fc-daygrid-day-number { color: #3b82f6 !important; }
+        .fc-day-sun .fc-daygrid-day-number { color: #ef4444 !important; }
         
-        .fc-event { border: none; background-color: transparent; padding: 2px 4px; margin-bottom: 2px;}
-        .custom-event-card { background-color: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 4px 6px; font-size: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        /* 이벤트 카드 디자인 */
+        .fc-event { border: none; background-color: transparent; margin: 1px 4px; }
+        .fc-daygrid-event-harness { margin-bottom: 4px; }
+        .custom-event-card { 
+            background-color: white; border: 1px solid #f1f5f9; border-radius: 6px; 
+            padding: 4px 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .custom-event-card:hover { transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-color: #e2e8f0; }
         .dark .custom-event-card { background-color: #1e293b; border-color: #334155; }
+        .dark .custom-event-card:hover { border-color: #475569; }
 
-        /* 위젯 스크롤바 가리기 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* 사이드바 트랜지션 */
-        #sidebar { transition: width 0.3s ease-in-out; }
-        .nav-text { transition: opacity 0.2s; white-space: nowrap; }
+        /* 사이드바 & 트랜지션 */
+        #sidebar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-text { transition: opacity 0.2s, max-width 0.3s; white-space: nowrap; overflow: hidden; }
+        .sidebar-collapsed .nav-text { opacity: 0; max-width: 0; }
+        
+        /* 모달 애니메이션 */
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .modal-animate { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 h-screen flex overflow-hidden transition-colors duration-300">
+<body class="text-slate-800 dark:text-slate-200 h-screen flex overflow-hidden transition-colors duration-300 selection:bg-indigo-100 selection:text-indigo-900">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col hidden md:flex relative z-20 shrink-0">
+    <aside id="sidebar" class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col hidden md:flex relative z-20 shrink-0">
         <!-- Collapse Button -->
-        <button onclick="toggleSidebar()" class="absolute -right-3 top-6 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-full p-1 hover:bg-slate-50 dark:hover:bg-slate-600 shadow-sm z-30 transition-transform">
-            <i id="sidebar-toggle-icon" class="ph ph-caret-left text-slate-500 dark:text-slate-300 text-sm"></i>
+        <button onclick="toggleSidebar()" class="absolute -right-3.5 top-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full p-1.5 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-500 shadow-sm z-30 transition-all">
+            <i id="sidebar-toggle-icon" class="ph-bold ph-caret-left text-xs"></i>
         </button>
 
-        <div class="h-16 flex items-center px-5 border-b border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="h-20 flex items-center px-6 overflow-hidden">
             <div class="flex items-center min-w-max">
-                <i class="ph-fill ph-dice-d20 text-3xl text-indigo-400 mr-3"></i>
-                <span id="logo-text" class="text-lg font-bold tracking-wider text-slate-900 dark:text-white nav-text">TRPG 매니저</span>
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/20 flex items-center justify-center mr-3">
+                    <i class="ph-fill ph-dice-d20 text-xl text-indigo-500 dark:text-indigo-400"></i>
+                </div>
+                <span id="logo-text" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white nav-text">TRPG 매니저</span>
             </div>
         </div>
 
-        <nav class="flex-1 px-3 py-6 space-y-1 overflow-x-hidden overflow-y-auto">
-            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 mb-2 px-3 mt-4 nav-text uppercase tracking-wider">Dashboard</div>
-            <button onclick="switchView('calendar')" id="nav-calendar" class="nav-btn w-full flex items-center px-3 py-2.5 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg transition-colors group">
-                <i class="ph ph-calendar-blank text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">일정(캘린더)</span>
+        <nav class="flex-1 px-4 py-4 space-y-1 overflow-x-hidden overflow-y-auto custom-scrollbar">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 mb-3 px-2 mt-2 nav-text uppercase tracking-widest">Dashboard</div>
+            <button onclick="switchView('calendar')" id="nav-calendar" class="nav-btn w-full flex items-center px-3 py-2.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl transition-all group">
+                <i class="ph-fill ph-calendar-blank text-xl min-w-[24px]"></i>
+                <span class="ml-3 nav-text">일정(캘린더)</span>
             </button>
-            <button onclick="switchView('wish')" id="nav-wish" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors group">
-                <i class="ph ph-star text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">위시리스트</span>
+            <button onclick="switchView('wish')" id="nav-wish" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200 font-medium rounded-xl transition-all group">
+                <i class="ph ph-star text-xl min-w-[24px] group-hover:text-yellow-500 transition-colors"></i>
+                <span class="ml-3 nav-text">위시리스트</span>
             </button>
 
-            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 mb-2 px-3 mt-6 nav-text uppercase tracking-wider">Archive</div>
-            <button onclick="switchView('owned')" id="nav-owned" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors group">
-                <i class="ph ph-books text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">소유/보유 보관소</span>
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 mb-3 px-2 mt-8 nav-text uppercase tracking-widest">Archive</div>
+            <button onclick="switchView('owned')" id="nav-owned" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200 font-medium rounded-xl transition-all group">
+                <i class="ph ph-books text-xl min-w-[24px] group-hover:text-teal-500 transition-colors"></i>
+                <span class="ml-3 nav-text">소유/보유 보관소</span>
             </button>
-            <button onclick="switchView('played')" id="nav-played" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors group">
-                <i class="ph ph-check-circle text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">주파 시나리오</span>
+            <button onclick="switchView('played')" id="nav-played" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200 font-medium rounded-xl transition-all group">
+                <i class="ph ph-check-circle text-xl min-w-[24px] group-hover:text-green-500 transition-colors"></i>
+                <span class="ml-3 nav-text">주파 시나리오</span>
             </button>
-            <button onclick="switchView('characters')" id="nav-characters" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors group">
-                <i class="ph ph-users text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">캐릭터 시트</span>
+            <button onclick="switchView('characters')" id="nav-characters" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200 font-medium rounded-xl transition-all group">
+                <i class="ph ph-users text-xl min-w-[24px] group-hover:text-blue-500 transition-colors"></i>
+                <span class="ml-3 nav-text">캐릭터 시트</span>
             </button>
-            <button onclick="switchView('backups')" id="nav-backups" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors group">
-                <i class="ph ph-floppy-disk text-xl min-w-[24px]"></i>
-                <span class="font-medium ml-3 nav-text">백업 보관소</span>
+            <button onclick="switchView('backups')" id="nav-backups" class="nav-btn w-full flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200 font-medium rounded-xl transition-all group">
+                <i class="ph ph-floppy-disk text-xl min-w-[24px] group-hover:text-slate-700 dark:group-hover:text-white transition-colors"></i>
+                <span class="ml-3 nav-text">백업 보관소</span>
             </button>
         </nav>
         
-        <!-- User Mini Profile & Theme Toggle -->
-        <div class="p-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between overflow-hidden">
+        <div class="p-4 mx-2 mb-4 border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 rounded-2xl flex items-center justify-between overflow-hidden shadow-sm transition-all duration-300 sidebar-footer">
             <div class="flex items-center">
-                <img src="https://placehold.co/100x100/e2e8f0/64748b?text=Me" alt="User" class="w-8 h-8 rounded-full min-w-[32px]">
+                <div class="w-9 h-9 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm flex items-center justify-center min-w-[36px]">
+                    <i class="ph-fill ph-user text-slate-400"></i>
+                </div>
                 <div class="ml-3 nav-text">
-                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200">탐사자님</p>
-                    <p class="text-[10px] text-slate-400">TRPG 매니저</p>
+                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200">탐사자님</p>
+                    <p class="text-[10px] text-slate-400 font-medium mt-0.5">TRPG 매니저</p>
                 </div>
             </div>
-            <!-- Dark Mode Toggle Button -->
-            <button onclick="toggleTheme()" class="nav-text text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="다크모드 전환">
+            <button onclick="toggleTheme()" class="nav-text text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 p-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors shadow-sm bg-transparent border border-transparent hover:border-slate-200 dark:hover:border-slate-600" title="다크모드 전환">
                 <i class="ph-fill ph-moon text-lg theme-icon-class transition-transform duration-300"></i>
             </button>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-white dark:bg-slate-900">
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-slate-50/50 dark:bg-[#0b1120]">
         
         <!-- Mobile Header -->
-        <header class="md:hidden h-14 bg-white dark:bg-slate-800 border-b border-slate-200 flex items-center justify-between px-4 z-10">
-            <div class="flex items-center"><i class="ph-fill ph-dice-d20 text-2xl text-indigo-400 mr-2"></i><span class="font-bold">TRPG 매니저</span></div>
+        <header class="md:hidden h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 z-10 shadow-sm">
+            <div class="flex items-center"><i class="ph-fill ph-dice-d20 text-2xl text-indigo-500 mr-2"></i><span class="font-bold">TRPG 매니저</span></div>
             <div class="flex items-center gap-2">
                 <button onclick="toggleTheme()" class="text-slate-500 p-2"><i class="ph-fill ph-moon text-xl theme-icon-class"></i></button>
-                <button><i class="ph ph-list text-2xl"></i></button>
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 pt-16 md:pt-6">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 pt-16 md:pt-8 custom-scrollbar">
             
-            <!-- 1. Calendar & Dashboard View (Landing Page) -->
+            <!-- 1. Calendar & Dashboard View -->
             <section id="view-calendar" class="view-section h-full flex flex-col min-h-0">
-                <div class="flex justify-between items-end mb-6 pr-14 md:pr-10">
+                <div class="flex justify-between items-end mb-6 pr-2 md:pr-0">
                     <div>
-                        <h1 class="text-2xl font-bold flex items-center gap-2">
-                            TRPG 일정(캘린더)
+                        <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                            일정 대시보드
                         </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1.5 font-medium">세션 일정을 한눈에 확인하고 관리하세요.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button class="text-slate-400 hover:text-slate-600 p-1"><i class="ph ph-magnifying-glass text-lg"></i></button>
-                        <a href="https://calendar.google.com/" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium flex items-center gap-1 transition-colors">
-                            새로 만들기 <i class="ph ph-caret-down"></i>
+                        <a href="https://calendar.google.com/" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all shadow-sm shadow-indigo-200 dark:shadow-none hover:shadow-md">
+                            <i class="ph-bold ph-plus"></i> 새 일정
                         </a>
                     </div>
                 </div>
 
-                <!-- Grid Layout for Calendar and Widgets -->
-                <div class="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-0">
-                    
-                    <!-- Left: FullCalendar -->
-                    <div class="lg:col-span-3 flex flex-col min-h-[500px]">
+                <div class="flex-1 flex flex-col lg:flex-row gap-6 min-h-0">
+                    <!-- Left: FullCalendar Card -->
+                    <div class="lg:w-[65%] xl:w-[70%] flex flex-col min-h-[500px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-soft p-2 md:p-4">
                         <div id="calendar" class="flex-1"></div>
                     </div>
 
-                    <!-- Right: Widgets Panel (Personal Home Style) -->
-                    <div class="lg:col-span-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pb-10">
+                    <!-- Right: Widgets Panel -->
+                    <div class="lg:w-[35%] xl:w-[30%] flex flex-col gap-5 overflow-y-auto custom-scrollbar pr-1 pb-10">
                         
-                        <!-- Widget 1: 이번달 남은 일정 -->
-                        <div>
-                            <h3 class="text-sm font-semibold flex items-center gap-2 text-slate-700 dark:text-slate-200 mb-3 bg-slate-100 dark:bg-slate-800 w-fit px-3 py-1 rounded-full">
-                                <i class="ph ph-list-dashes"></i> 이번달 남은 일정
-                            </h3>
-                            
-                            <div class="space-y-3 pl-1">
-                                <!-- Item 1 -->
-                                <div class="flex flex-col gap-1.5 group cursor-pointer">
-                                    <div class="flex items-center gap-2">
-                                        <i class="ph-fill ph-book-bookmark text-slate-400"></i>
-                                        <span class="font-medium text-sm group-hover:text-blue-500 transition-colors">황랑일취몽</span>
-                                    </div>
-                                    <div class="flex flex-wrap gap-1.5 ml-6">
-                                        <span class="text-[10px] text-slate-500 py-0.5">2026년 5월 30일</span>
-                                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-tag-insane text-tag-insaneTxt font-medium">인세인</span>
-                                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-tag-pl text-tag-plTxt font-medium">PL</span>
-                                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-100 text-purple-700 font-medium">8인</span>
-                                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-tag-time text-tag-timeTxt font-medium">PM10~12</span>
-                                    </div>
+                        <!-- 프로필 위젯 -->
+                        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-soft relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-4 opacity-20">
+                                <i class="ph-fill ph-dice-d20 text-6xl"></i>
+                            </div>
+                            <div class="relative z-10">
+                                <div class="inline-block px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-lg text-[10px] font-bold mb-3 tracking-wider">PROFILE</div>
+                                <h3 class="text-xl font-bold mb-1">성인 여성</h3>
+                                <p class="text-indigo-100 text-sm font-medium opacity-90 leading-relaxed mb-4">온라인 세션 위주 플레이<br>(오프탁도 기회가 되면 해보고 싶어요!)</p>
+                                <div class="flex gap-2">
+                                    <span class="px-2.5 py-1 bg-black/20 rounded-md text-xs font-semibold backdrop-blur-sm">Roll20</span>
+                                    <span class="px-2.5 py-1 bg-black/20 rounded-md text-xs font-semibold backdrop-blur-sm">코코포리아</span>
                                 </div>
-                                <button class="text-slate-400 hover:text-slate-600 text-xs flex items-center gap-1 ml-6 mt-1"><i class="ph ph-plus"></i> 새 페이지</button>
                             </div>
                         </div>
 
-                        <hr class="border-slate-100 dark:border-slate-800">
+                        <!-- Widget 1: 이번달 남은 일정 (JS 렌더링 영역) -->
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-soft">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                    <i class="ph-fill ph-push-pin text-indigo-500"></i> 다가오는 세션
+                                </h3>
+                                <span id="upcoming-count" class="text-xs font-bold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full">0</span>
+                            </div>
+                            <div id="upcoming-events" class="space-y-3">
+                                <!-- JS Dynamic Render -->
+                            </div>
+                        </div>
 
                         <!-- Widget 2: 룰별 그룹 분류 -->
-                        <div>
-                            <h3 class="text-sm font-semibold flex items-center gap-2 text-slate-700 dark:text-slate-200 mb-3 bg-slate-100 dark:bg-slate-800 w-fit px-3 py-1 rounded-full">
-                                <i class="ph ph-list-dashes"></i> 이번달 남은 일정
-                            </h3>
-                            <div class="space-y-4 pl-1">
-                                <!-- Group 1 -->
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <i class="ph-fill ph-caret-down text-xs text-slate-400"></i>
-                                        <span class="text-[11px] px-2 py-0.5 rounded bg-tag-insane text-tag-insaneTxt font-bold">인세인</span>
-                                        <span class="text-xs text-slate-400">1</span>
-                                    </div>
-                                    <div class="flex flex-col gap-1 group cursor-pointer ml-4">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-2">
-                                                <i class="ph-fill ph-book-bookmark text-slate-400 text-sm"></i>
-                                                <span class="font-medium text-sm">황랑일취몽</span>
-                                            </div>
-                                        </div>
-                                         <div class="flex gap-1 mt-1">
-                                            <span class="text-[10px] text-slate-500 py-0.5">2026년 5월 30일</span>
-                                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-tag-pl text-tag-plTxt font-medium">PL</span>
-                                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-tag-time text-tag-timeTxt font-medium">PM10~12</span>
-                                        </div>
-                                    </div>
-                                     <button class="text-slate-400 hover:text-slate-600 text-xs flex items-center gap-1 ml-8 mt-2"><i class="ph ph-plus"></i> 새 페이지</button>
-                                </div>
-                                <button class="text-slate-400 hover:text-slate-600 text-xs flex items-center gap-1 ml-4"><i class="ph ph-plus"></i> 신규 그룹</button>
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-soft">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                    <i class="ph-fill ph-folders text-teal-500"></i> 룰별 일정 모아보기
+                                </h3>
+                            </div>
+                            <div id="grouped-events" class="space-y-2">
+                                <!-- JS Dynamic Render -->
                             </div>
                         </div>
                         
-                        <hr class="border-slate-100 dark:border-slate-800">
-
                         <!-- Widget 3: GM/PL 비율 차트 -->
-                        <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-sm font-semibold flex items-center gap-2 text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 w-fit px-3 py-1 rounded-full">
-                                    <i class="ph ph-chart-pie-slice"></i> GM/PL 비율
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-soft">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                    <i class="ph-fill ph-chart-pie-slice text-blue-500"></i> 포지션 비율
                                 </h3>
+                                <span class="text-xs text-slate-400 font-medium">올해 기준</span>
                             </div>
                             
-                            <!-- Simple CSS Bar Chart -->
-                            <div class="flex items-end h-36 gap-12 border-b border-slate-200 dark:border-slate-700 pb-2 px-8 relative mt-4">
-                                <!-- Y-axis labels -->
-                                <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-slate-400 pb-6">
-                                    <span>12</span><span>9</span><span>6</span><span>3</span><span>0</span>
+                            <div class="flex items-end h-32 gap-8 border-b border-slate-100 dark:border-slate-700/50 pb-2 px-6 relative mt-4">
+                                <!-- Y-axis line -->
+                                <div class="absolute left-0 top-0 h-full w-full flex flex-col justify-between pointer-events-none">
+                                    <div class="border-t border-slate-100 dark:border-slate-800/50 w-full h-0"></div>
+                                    <div class="border-t border-slate-100 dark:border-slate-800/50 w-full h-0"></div>
+                                    <div class="border-t border-slate-100 dark:border-slate-800/50 w-full h-0"></div>
                                 </div>
                                 
                                 <!-- GM Bar -->
-                                <div class="flex flex-col items-center gap-1 flex-1 h-full justify-end relative group">
-                                    <span class="text-xs text-slate-500 absolute -top-5 opacity-0 group-hover:opacity-100 transition-opacity">2</span>
-                                    <div class="w-8 bg-blue-200 dark:bg-blue-800 rounded-t-sm transition-all duration-500 hover:bg-blue-300" style="height: 16%;"></div>
-                                    <span class="text-xs font-medium text-slate-600 mt-1">GM</span>
+                                <div class="flex flex-col items-center gap-2 flex-1 h-full justify-end relative group z-10">
+                                    <span id="chart-gm-count" class="text-xs font-bold text-slate-500 dark:text-slate-400 absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">0</span>
+                                    <div id="chart-gm-bar" class="w-12 bg-gradient-to-t from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 rounded-t-lg transition-all duration-1000 ease-out shadow-sm" style="height: 0%;"></div>
+                                    <span class="text-xs font-bold text-slate-600 dark:text-slate-400">GM</span>
                                 </div>
                                 <!-- PL Bar -->
-                                <div class="flex flex-col items-center gap-1 flex-1 h-full justify-end relative group">
-                                    <span class="text-xs text-slate-500 absolute -top-5 opacity-0 group-hover:opacity-100 transition-opacity">8</span>
-                                    <div class="w-8 bg-teal-400 dark:bg-teal-600 rounded-t-sm transition-all duration-500 hover:bg-teal-500" style="height: 66%;"></div>
-                                    <span class="text-xs font-medium text-slate-600 mt-1">PL</span>
+                                <div class="flex flex-col items-center gap-2 flex-1 h-full justify-end relative group z-10">
+                                    <span id="chart-pl-count" class="text-xs font-bold text-slate-500 dark:text-slate-400 absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">0</span>
+                                    <div id="chart-pl-bar" class="w-12 bg-gradient-to-t from-orange-300 to-orange-400 dark:from-orange-600 dark:to-orange-500 rounded-t-lg transition-all duration-1000 ease-out shadow-sm" style="height: 0%;"></div>
+                                    <span class="text-xs font-bold text-orange-600 dark:text-orange-400">PL</span>
                                 </div>
                             </div>
                         </div>
@@ -278,60 +278,62 @@
 
             <!-- 2. Wishlist View -->
             <section id="view-wish" class="view-section hidden">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold">위시리스트</h1>
-                    <p class="text-slate-500 text-sm mt-1">꼭 가고 싶거나 관심 있는 시나리오들을 모아둡니다.</p>
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">위시리스트</h1>
+                    <p class="text-slate-500">가고 싶은 시나리오나 관심 있는 룰북을 기록해 두세요.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="wish-grid">
-                    <!-- Wishlist generated by JS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="wish-grid">
+                    <!-- JS Rendering -->
                 </div>
             </section>
 
-            <!-- 3. Owned View (Rulebook/Scenario) -->
+            <!-- 3. Owned View -->
             <section id="view-owned" class="view-section hidden">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold">소유/보유 보관소</h1>
-                    <p class="text-slate-500 text-sm mt-1">내가 가지고 있는 룰북과 시나리오집을 관리합니다.</p>
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">소유/보유 보관소</h1>
+                    <p class="text-slate-500">내가 구매했거나 보유 중인 실물 책/PDF 목록입니다.</p>
                 </div>
-                <!-- 탭 메뉴 -->
-                <div class="flex flex-wrap gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg w-fit mb-6 border border-slate-200 dark:border-slate-700">
-                    <button onclick="filterOwned('rulebook')" id="tab-rulebook" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white dark:bg-slate-700 text-teal-700 dark:text-teal-300 shadow-sm transition-all">룰북</button>
-                    <button onclick="filterOwned('scenario_book')" id="tab-scenario" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all">시나리오집</button>
+                <div class="flex gap-2 mb-6 border-b border-slate-200 dark:border-slate-800 pb-px">
+                    <button class="px-5 py-2.5 text-sm font-bold border-b-2 border-teal-500 text-teal-600 dark:text-teal-400">룰북 (Rulebooks)</button>
+                    <button class="px-5 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors">시나리오집 (Books)</button>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="owned-grid">
-                     <!-- Owned list generated by JS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="owned-grid">
+                     <!-- JS Rendering -->
                 </div>
             </section>
 
-            <!-- 4. Played View (Table) -->
+            <!-- 4. Played View -->
             <section id="view-played" class="view-section hidden h-full flex flex-col">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold">주파 시나리오</h1>
-                    <p class="text-slate-500 text-sm mt-1">이미 다녀온, 즐거웠던 세션의 기록들입니다.</p>
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">주파 시나리오</h1>
+                    <p class="text-slate-500">즐거웠던 세션의 기록을 표 형태로 한눈에 봅니다.</p>
                 </div>
-                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex-1">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden flex-1">
                     <div class="overflow-x-auto h-full custom-scrollbar">
                         <table class="w-full text-left text-sm whitespace-nowrap">
-                            <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 border-b border-slate-200 dark:border-slate-700 sticky top-0">
+                            <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
                                 <tr>
-                                    <th class="px-6 py-3 font-medium">룰 (System)</th>
-                                    <th class="px-6 py-3 font-medium">시나리오명</th>
-                                    <th class="px-6 py-3 font-medium">라이터</th>
-                                    <th class="px-6 py-3 font-medium">태그</th>
+                                    <th class="px-6 py-4 font-semibold">사용 룰</th>
+                                    <th class="px-6 py-4 font-semibold">시나리오명</th>
+                                    <th class="px-6 py-4 font-semibold">라이터</th>
+                                    <th class="px-6 py-4 font-semibold">포지션</th>
+                                    <th class="px-6 py-4 font-semibold">플레이 날짜</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-xs font-semibold">CoC 7판</span></td>
-                                    <td class="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">독스프</td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">doro</td>
-                                    <td class="px-6 py-4"><span class="text-xs text-indigo-500 border border-indigo-200 rounded px-2 py-0.5">입문용</span></td>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+                                    <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-md bg-tag-coc text-tag-cocTxt dark:bg-green-900/30 dark:text-green-400 text-xs font-bold">CoC 7판</span></td>
+                                    <td class="px-6 py-4 font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-500 transition-colors">독을 품은 백설공주</td>
+                                    <td class="px-6 py-4 text-slate-500">doro</td>
+                                    <td class="px-6 py-4"><span class="text-xs bg-tag-pl text-tag-plTxt font-bold rounded px-2 py-1">PL (KPC)</span></td>
+                                    <td class="px-6 py-4 text-slate-500">2026.04.15</td>
                                 </tr>
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-md bg-tag-insane text-tag-insaneTxt text-xs font-semibold">인세인</span></td>
-                                    <td class="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">황랑일취몽</td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">공식</td>
-                                    <td class="px-6 py-4"><span class="text-xs text-purple-500 border border-purple-200 rounded px-2 py-0.5">다인탁</span></td>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+                                    <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-md bg-tag-dx3 text-tag-dx3Txt dark:bg-slate-700 dark:text-slate-300 text-xs font-bold">DX3</span></td>
+                                    <td class="px-6 py-4 font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-500 transition-colors">Crumble Days</td>
+                                    <td class="px-6 py-4 text-slate-500">공식</td>
+                                    <td class="px-6 py-4"><span class="text-xs bg-tag-gm text-tag-gmTxt font-bold rounded px-2 py-1">GM</span></td>
+                                    <td class="px-6 py-4 text-slate-500">2026.05.02</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -339,206 +341,317 @@
                 </div>
             </section>
 
-            <!-- 5. Characters View -->
-            <section id="view-characters" class="view-section hidden">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold">캐릭터 시트</h1>
-                    <p class="text-slate-500 text-sm">나만의 탐사자와 오버드들을 모아보세요.</p>
+            <!-- 5,6. 기타 뷰 생략 처리 (캐릭터, 백업) - 뼈대만 유지 -->
+            <section id="view-characters" class="view-section hidden h-full">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">캐릭터 시트</h1>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="character-grid">
-                    <p class="col-span-full p-4 text-center text-slate-400 border-2 border-dashed rounded-xl">등록된 캐릭터가 없습니다.</p>
+                <div class="flex items-center justify-center h-[60%] border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
+                    <p class="text-slate-400 font-medium">등록된 캐릭터가 없습니다.</p>
+                </div>
+            </section>
+            <section id="view-backups" class="view-section hidden h-full">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">백업 보관소</h1>
+                </div>
+                <div class="flex items-center justify-center h-[60%] bg-white dark:bg-slate-900 rounded-3xl shadow-soft border border-slate-200 dark:border-slate-800">
+                    <p class="text-slate-400 font-medium">html 파일을 업로드하여 백업을 관리하세요.</p>
                 </div>
             </section>
 
-            <!-- 6. Backups View -->
-            <section id="view-backups" class="view-section hidden h-full flex flex-col">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold">백업 보관소</h1>
-                    <p class="text-slate-500 text-sm">HTML 백업 로그를 자동으로 관리합니다.</p>
-                </div>
-                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 p-4">
-                     <p class="text-center text-slate-400 mt-10">폴더에 등록된 HTML 파일이 없습니다.</p>
-                </div>
-            </section>
         </div>
     </main>
 
+    <!-- Event Details Modal -->
+    <div id="event-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-0">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <!-- Modal Content -->
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden modal-animate">
+            <!-- Header Image/Color block -->
+            <div id="modal-header-color" class="h-20 bg-indigo-500 w-full"></div>
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-black/20 hover:bg-black/40 text-white rounded-full backdrop-blur-md transition-colors">
+                <i class="ph-bold ph-x"></i>
+            </button>
+            
+            <div class="p-6 pt-5">
+                <div class="flex items-center gap-2 mb-3" id="modal-tags">
+                    <!-- JS 렌더링 태그 -->
+                </div>
+                <h2 id="modal-title" class="text-2xl font-bold text-slate-900 dark:text-white leading-tight mb-4">시나리오 제목</h2>
+                
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                        <i class="ph-fill ph-calendar-blank text-lg text-indigo-500 mt-0.5"></i>
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">일시</p>
+                            <p id="modal-date" class="text-sm font-semibold text-slate-800 dark:text-slate-200">2026년 00월 00일</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                        <i class="ph-fill ph-users text-lg text-teal-500 mt-0.5"></i>
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">인원 및 포지션</p>
+                            <p id="modal-players" class="text-sm font-semibold text-slate-800 dark:text-slate-200">정보 없음</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex gap-2">
+                    <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl transition-colors">닫기</button>
+                    <button class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-colors">상세 기록 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // 사이드바 토글 상태
+        // --- 1. 기본 설정 및 데이터 ---
         let isSidebarOpen = true;
+        
+        // 캘린더에 표시될 데이터이자, 대시보드에서 분석할 원본 데이터
+        const calendarEvents = [
+            { title: "황랑일취몽", start: "2026-06-06", extendedProps: { system: "인세인", pos: "PL", players: "8인" } },
+            { title: "Crumble Days", start: "2026-06-15", extendedProps: { system: "DX3", pos: "GM", players: "4인" } },
+            { title: "Be My...", start: "2026-06-20", extendedProps: { system: "DX3", pos: "PL", players: "2인" } },
+            { title: "시노비가미 입문탁", start: "2026-06-25", extendedProps: { system: "시노비가미", pos: "PL", players: "다인" } },
+            { title: "독을 품은 백설공주", start: "2026-06-28", extendedProps: { system: "CoC 7판", pos: "GM", players: "타이만" } },
+            { title: "더블크로스 정규캠퍼스", start: "2026-07-05", extendedProps: { system: "DX3", pos: "PL", players: "4인" } }
+        ];
 
         document.addEventListener('DOMContentLoaded', () => {
             initCalendar();
+            renderDashboard(); // 데이터 분석 및 위젯 렌더링
             renderSampleCards();
             
-            // 초기 테마 아이콘 세팅
+            // 초기 테마 체크
             if (document.documentElement.classList.contains('dark')) {
-                document.querySelectorAll('.theme-icon-class').forEach(icon => {
-                    icon.classList.replace('ph-moon', 'ph-sun');
-                });
+                document.querySelectorAll('.theme-icon-class').forEach(icon => icon.classList.replace('ph-moon', 'ph-sun'));
             }
         });
 
-        // 사이드바 접기/펴기 로직
+        // --- 2. UI 동작 로직 ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            const texts = document.querySelectorAll('.nav-text');
             const toggleIcon = document.getElementById('sidebar-toggle-icon');
+            const footer = document.querySelector('.sidebar-footer');
 
             isSidebarOpen = !isSidebarOpen;
-
             if(isSidebarOpen) {
-                // 열기
                 sidebar.classList.replace('w-20', 'w-64');
-                sidebar.classList.remove('items-center'); // 프로필 중앙 정렬 해제
-                texts.forEach(t => {
-                    t.classList.remove('opacity-0', 'w-0', 'hidden');
-                });
+                sidebar.classList.remove('sidebar-collapsed');
                 toggleIcon.classList.replace('ph-caret-right', 'ph-caret-left');
-                toggleIcon.parentElement.classList.replace('-right-3', '-right-3'); // 위치 유지
+                footer.classList.remove('px-2', 'justify-center');
+                footer.classList.add('px-4', 'justify-between');
             } else {
-                // 접기
                 sidebar.classList.replace('w-64', 'w-20');
-                sidebar.classList.add('items-center'); // 버튼들 중앙 정렬
-                texts.forEach(t => {
-                    t.classList.add('opacity-0', 'w-0', 'hidden');
-                });
+                sidebar.classList.add('sidebar-collapsed');
                 toggleIcon.classList.replace('ph-caret-left', 'ph-caret-right');
+                footer.classList.remove('px-4', 'justify-between');
+                footer.classList.add('px-2', 'justify-center');
             }
-
-            // 달력 리사이징 트리거 (트랜지션 끝날 때쯤)
-            setTimeout(() => {
-                if(calendarInstance) calendarInstance.updateSize();
-            }, 300);
+            setTimeout(() => { if(calendarInstance) calendarInstance.updateSize(); }, 300);
         }
 
-        // 테마 토글 (라이트/다크)
         function toggleTheme() {
             const html = document.documentElement;
             const icons = document.querySelectorAll('.theme-icon-class');
-            
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                html.classList.add('light');
                 icons.forEach(icon => icon.classList.replace('ph-sun', 'ph-moon'));
             } else {
-                html.classList.remove('light');
                 html.classList.add('dark');
                 icons.forEach(icon => icon.classList.replace('ph-moon', 'ph-sun'));
             }
         }
 
-        // 뷰 전환
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById('view-' + viewId).classList.remove('hidden');
             
-            // 네비게이션 활성화 스타일 초기화
+            // 네비게이션 스타일 리셋
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-slate-100', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white');
-                btn.classList.add('text-slate-500');
+                btn.classList.remove('bg-indigo-50', 'dark:bg-indigo-500/10', 'text-indigo-600', 'dark:text-indigo-400', 'font-semibold');
+                btn.classList.add('text-slate-500', 'font-medium');
             });
             
-            // 선택된 네비게이션 활성화
+            // 선택 활성화
             const activeBtn = document.getElementById('nav-' + viewId);
-            activeBtn.classList.remove('text-slate-500');
-            activeBtn.classList.add('bg-slate-100', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white');
+            activeBtn.classList.remove('text-slate-500', 'font-medium');
+            activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-500/10', 'text-indigo-600', 'dark:text-indigo-400', 'font-semibold');
             
             if(viewId === 'calendar' && calendarInstance) calendarInstance.updateSize();
         }
 
-        // 캘린더 초기화 및 커스텀 디자인 렌더링
+        // --- 3. 캘린더 & 모달 ---
         let calendarInstance = null;
         function initCalendar() {
             var calendarEl = document.getElementById('calendar');
             calendarInstance = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth', 
                 locale: 'ko',
-                headerToolbar: { 
-                    left: 'prev,next today', 
-                    center: 'title', 
-                    right: '' // 우측 상단 버튼 제거하고 개인홈 감성 유지
-                },
+                headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
                 contentHeight: 'auto',
-                // 노션 느낌의 커스텀 이벤트 렌더링
+                
+                // 구글 연동 방어코드 주석처리 (보안) - 필요시 README 참조하여 추가
+                // googleCalendarApiKey: 'YOUR_KEY', 
+                // eventSources: [{ googleCalendarId: 'sesrtrpg@gmail.com', ... }],
+                
+                events: calendarEvents,
+                
                 eventContent: function(arg) {
-                    let systemTag = arg.event.extendedProps.system === 'DX3' ? 'bg-tag-dx3 text-tag-dx3Txt' : 'bg-tag-insane text-tag-insaneTxt';
-                    let posTag = arg.event.extendedProps.pos === 'GM' ? 'bg-tag-gm text-tag-gmTxt' : 'bg-tag-pl text-tag-plTxt';
-                    let players = arg.event.extendedProps.players;
+                    let sys = arg.event.extendedProps.system || '기타';
+                    let pos = arg.event.extendedProps.pos || '-';
+                    let sysClass = sys.includes('DX3') ? 'bg-tag-dx3 text-tag-dx3Txt' : (sys.includes('CoC') ? 'bg-tag-coc text-tag-cocTxt' : 'bg-tag-insane text-tag-insaneTxt');
+                    let posClass = pos === 'GM' ? 'bg-tag-gm text-tag-gmTxt' : 'bg-tag-pl text-tag-plTxt';
                     
-                    let customHtml = `
+                    return { html: `
                         <div class="custom-event-card flex flex-col gap-1 w-full overflow-hidden">
-                            <div class="font-bold text-slate-700 dark:text-slate-200 truncate flex items-center gap-1">
-                                📘 ${arg.event.title}
+                            <div class="font-bold text-slate-800 dark:text-slate-200 truncate leading-none pt-0.5">
+                                ${arg.event.title}
                             </div>
                             <div class="flex flex-wrap gap-1 mt-0.5">
-                                <span class="px-1 rounded text-[9px] font-medium ${players ? 'bg-purple-100 text-purple-700' : 'hidden'}">${players}</span>
-                                <span class="px-1 rounded text-[9px] font-medium ${systemTag}">${arg.event.extendedProps.system}</span>
-                                <span class="px-1 rounded text-[9px] font-medium ${posTag}">${arg.event.extendedProps.pos}</span>
+                                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${sysClass}">${sys}</span>
+                                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${posClass}">${pos}</span>
                             </div>
                         </div>
-                    `;
-                    return { html: customHtml };
+                    `};
                 },
-                // 샘플 데이터
-                events: [
-                    { title: '덥크 세션', start: '2026-06-02', extendedProps: { system: 'DX3', pos: 'GM', players: '4인' } },
-                    { title: 'Be My...', start: '2026-06-03', extendedProps: { system: 'DX3', pos: 'PL', players: '2인' } },
-                    { title: '황랑일취몽', start: '2026-06-06', extendedProps: { system: '인세인', pos: 'PL', players: '8인' } },
-                    { title: '덥크 세션', start: '2026-06-09', extendedProps: { system: 'DX3', pos: 'GM', players: '4인' } },
-                    { title: '시노비가미탁', start: '2026-06-19', extendedProps: { system: '시노비가미', pos: 'PL', players: '다인' } },
-                    { title: '덥크 세션', start: '2026-06-23', extendedProps: { system: 'DX3', pos: 'GM', players: '4인' } },
-                    { title: '덥크 세션', start: '2026-06-30', extendedProps: { system: 'DX3', pos: 'GM', players: '4인' } },
-                    { title: '시노비가미탁', start: '2026-07-01', extendedProps: { system: '시노비가미', pos: 'PL', players: '5인' } }
-                ]
+                
+                // 🔹 이벤트 클릭 시 팝업 띄우기
+                eventClick: function(info) {
+                    const e = info.event;
+                    document.getElementById('modal-title').innerText = e.title;
+                    
+                    // 날짜 포맷팅
+                    const d = e.start;
+                    document.getElementById('modal-date').innerText = `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+                    
+                    // 태그 및 인원
+                    let sys = e.extendedProps.system || '기타 룰';
+                    let pos = e.extendedProps.pos || '미정';
+                    let players = e.extendedProps.players || '인원 미상';
+                    
+                    document.getElementById('modal-players').innerText = `${players} / ${pos} 포지션`;
+                    
+                    // 색상 테마 동적 변경
+                    let colorClass = sys.includes('DX3') ? 'bg-slate-600' : (sys.includes('CoC') ? 'bg-teal-600' : 'bg-pink-500');
+                    document.getElementById('modal-header-color').className = `h-20 w-full ${colorClass}`;
+                    
+                    document.getElementById('modal-tags').innerHTML = `
+                        <span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold">${sys}</span>
+                        <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 text-xs font-bold">${pos}</span>
+                    `;
+                    
+                    // 모달 띄우기
+                    const modal = document.getElementById('event-modal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
             });
             calendarInstance.render();
         }
 
-        // 룰북/시나리오 탭 필터링
-        function filterOwned(type) {
-            const btnRule = document.getElementById('tab-rulebook');
-            const btnScen = document.getElementById('tab-scenario');
-            
-            // 버튼 스타일 초기화
-            [btnRule, btnScen].forEach(btn => {
-                btn.classList.remove('bg-white', 'dark:bg-slate-700', 'text-teal-700', 'dark:text-teal-300', 'shadow-sm');
-                btn.classList.add('text-slate-500');
-            });
-
-            // 클릭된 버튼 스타일 적용
-            if(type === 'rulebook') {
-                btnRule.classList.add('bg-white', 'dark:bg-slate-700', 'text-teal-700', 'dark:text-teal-300', 'shadow-sm');
-                btnRule.classList.remove('text-slate-500');
-            } else {
-                btnScen.classList.add('bg-white', 'dark:bg-slate-700', 'text-teal-700', 'dark:text-teal-300', 'shadow-sm');
-                btnScen.classList.remove('text-slate-500');
-            }
-            // (실제 데이터 필터링 로직은 이곳에 추가)
+        function closeModal() {
+            const modal = document.getElementById('event-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
-        // 임시 카드 렌더링
-        function renderSampleCards() {
-            const makeCard = (title, author, tags) => `
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-2 hover:shadow-md transition-shadow group cursor-pointer">
-                    <div class="flex justify-between items-start">
-                        <h3 class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${title}</h3>
-                        <i class="ph ph-dots-three text-slate-400"></i>
-                    </div>
-                    <p class="text-xs text-slate-500">라이터: ${author}</p>
-                    <div class="mt-2 flex gap-1">
-                        ${tags.map(t => `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded">${t}</span>`).join('')}
-                    </div>
-                </div>
-            `;
+        // --- 4. 대시보드 데이터 동적 분석 ---
+        function renderDashboard() {
+            const today = new Date();
+            // 시간 초기화 (오늘 날짜 비교용)
+            today.setHours(0,0,0,0);
             
+            // 1. 앞으로 남은 일정 필터링 및 정렬
+            const futureEvents = calendarEvents.filter(e => new Date(e.start) >= today)
+                                              .sort((a, b) => new Date(a.start) - new Date(b.start));
+            
+            document.getElementById('upcoming-count').innerText = futureEvents.length;
+            
+            // 리스트 렌더링 (다가오는 세션)
+            const upContainer = document.getElementById('upcoming-events');
+            if (futureEvents.length === 0) {
+                upContainer.innerHTML = '<p class="text-sm text-slate-400 font-medium">예정된 세션이 없습니다.</p>';
+            } else {
+                upContainer.innerHTML = futureEvents.slice(0, 4).map(e => {
+                    const d = new Date(e.start);
+                    return `
+                    <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-100 dark:hover:border-slate-700 transition-colors cursor-pointer" onclick="alert('달력에서 확인해주세요!')">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex flex-col items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                            <span class="text-[10px] font-bold uppercase leading-none">${d.getMonth()+1}월</span>
+                            <span class="text-lg font-black leading-none mt-0.5">${d.getDate()}</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="font-bold text-slate-800 dark:text-slate-200 text-sm truncate">${e.title}</p>
+                            <p class="text-xs text-slate-400 font-medium mt-0.5 truncate">${e.extendedProps.system} · ${e.extendedProps.pos}</p>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // 2. 룰별 그룹화
+            const grouped = futureEvents.reduce((acc, e) => {
+                const r = e.extendedProps.system || '기타';
+                if(!acc[r]) acc[r] = [];
+                acc[r].push(e);
+                return acc;
+            }, {});
+            
+            const groupContainer = document.getElementById('grouped-events');
+            if(Object.keys(grouped).length === 0) {
+                groupContainer.innerHTML = '<p class="text-sm text-slate-400 font-medium">분류할 일정이 없습니다.</p>';
+            } else {
+                groupContainer.innerHTML = Object.entries(grouped).map(([rule, evts]) => {
+                    let badgeClass = rule.includes('DX3') ? 'bg-slate-200 text-slate-700' : 'bg-pink-100 text-pink-700';
+                    return `
+                    <details class="group bg-slate-50 dark:bg-slate-800/30 rounded-xl mb-2 overflow-hidden border border-slate-100 dark:border-slate-800">
+                        <summary class="flex items-center justify-between p-3 cursor-pointer list-none hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
+                            <div class="flex items-center gap-2">
+                                <i class="ph-bold ph-caret-right text-slate-400 transition-transform group-open:rotate-90 text-xs"></i>
+                                <span class="font-bold text-sm text-slate-700 dark:text-slate-200">${rule}</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-xs font-bold ${badgeClass}">${evts.length}</span>
+                        </summary>
+                        <div class="p-3 pt-0 space-y-2">
+                            ${evts.map(e => `<div class="text-xs text-slate-500 pl-5 font-medium border-l-2 border-slate-200 dark:border-slate-700 ml-1.5 py-1">${e.title}</div>`).join('')}
+                        </div>
+                    </details>`;
+                }).join('');
+            }
+
+            // 3. GM/PL 비율 차트 계산 (전체 데이터 기준)
+            let gm = 0, pl = 0;
+            calendarEvents.forEach(e => {
+                if(e.extendedProps.pos === 'GM') gm++;
+                else if(e.extendedProps.pos === 'PL') pl++;
+            });
+            let total = gm + pl;
+            setTimeout(() => {
+                document.getElementById('chart-gm-bar').style.height = total ? `${(gm/total)*100}%` : '0%';
+                document.getElementById('chart-pl-bar').style.height = total ? `${(pl/total)*100}%` : '0%';
+            }, 500); // 애니메이션 딜레이
+            document.getElementById('chart-gm-count').innerText = gm;
+            document.getElementById('chart-pl-count').innerText = pl;
+        }
+
+        // --- 5. 더미 카드 렌더링 ---
+        function renderSampleCards() {
+            const makeCard = (title, sys, type) => `
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-bold rounded">${sys}</span>
+                        <i class="ph-bold ph-arrow-up-right text-slate-300 group-hover:text-indigo-500 transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg leading-tight mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${title}</h3>
+                    <p class="text-xs text-slate-500 font-medium">분류: ${type}</p>
+                </div>`;
             document.getElementById('wish-grid').innerHTML = 
-                makeCard("수조에 가라앉은 방", "unknown", ["타이만", "CoC 7판"]) + 
-                makeCard("너를 위한 레퀴엠", "doro", ["다인", "더블크로스"]);
-                
+                makeCard("수조에 가라앉은 방", "CoC 7판", "타이만") + makeCard("너를 위한 레퀴엠", "더블크로스", "다인");
             document.getElementById('owned-grid').innerHTML = 
-                makeCard("크툴루의 부름 수호자 룰북", "초여명", ["필수 룰북", "하드커버"]) +
-                makeCard("펄프 크툴루", "초여명", ["서플리먼트"]);
+                makeCard("크툴루의 부름 수호자 룰북", "CoC 7판", "필수 룰북") + makeCard("펄프 크툴루", "CoC 7판", "서플리먼트");
         }
     </script>
 </body>
